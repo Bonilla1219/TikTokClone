@@ -29,8 +29,22 @@ struct ProfileHeaderView: View {
                 UserStatView(value: 1, title: "Followers")
                 UserStatView(value: 7, title: "Likes")
                 
-                
             }
+            
+            // action button
+            Button{
+                
+            } label: {
+                Text("Edit Profile")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .frame(width: 360, height: 32)
+                    .foregroundStyle(.black)
+                    .background(Color(.systemGray6))
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+            }
+            
+            Divider()
             
         }
     }
@@ -40,19 +54,3 @@ struct ProfileHeaderView: View {
     ProfileHeaderView()
 }
 
-struct UserStatView: View {
-    let value: Int
-    let title: String
-    var body: some View {
-        VStack{
-            Text("\(value)")
-                .font(.subheadline)
-                .fontWeight(.bold)
-            
-            Text(title)
-                .font(.caption)
-                .foregroundStyle(.gray)
-        }
-        .frame(width: 80, alignment: .center)
-    }
-}
