@@ -19,9 +19,9 @@ struct FeedCell: View {
     var body: some View {
         ZStack{
             CustomVideoPlayer(player: player)
-                //makes the objects fit the screen realative to its horiztonal and vertical frame
+            //makes the objects fit the screen realative to its horiztonal and vertical frame
                 .containerRelativeFrame([.horizontal, .vertical])
-                
+            
             VStack{
                 Spacer()
                 
@@ -103,9 +103,17 @@ struct FeedCell: View {
             }
             .padding()
         }
-        .onAppear{
-            print("DEBUG: post id \(post.id)")
-            //player.play()
+        .onTapGesture {
+            switch player.timeControlStatus {
+            case .paused:
+                player.play()
+            case .waitingToPlayAtSpecifiedRate:
+                break
+            case .playing:
+                player.pause()
+            @unknown default:
+                break
+            }
         }
     }
 }

@@ -20,12 +20,16 @@ struct FeedView: View {
                 ForEach(viewModel.posts) { post in
                     FeedCell(post: post, player: player)
                         .id(post.id)
+                        .onAppear{
+                            playInitialVideoIfNecessary()
+                            player.play()
+                        }
                 }
             }
             //Configures the outermost layout as a scroll target layout.
             .scrollTargetLayout()
         }
-        .onAppear{player.play()}
+        //.onAppear{player.play()}
         //scrollPostion gives us the ability to manage where we are
         .scrollPosition(id: $scrollPosition)
         //changes the scroll target layout behavior into paging effect
@@ -35,6 +39,16 @@ struct FeedView: View {
         .onChange(of: scrollPosition) { oldValue, newValue in
             playVideoOnChangeOfScrollPostion(postID: newValue)
         }
+    }
+    
+    func playInitialVideoIfNecessary(){
+        guard 
+            scrollPosition == nil,
+            let post = viewModel.posts.first,
+            player.currentItem == nil else {return}
+        
+        let item = AVPlayerItem(url: URL(string: post.videoUrl)!)
+        player.replaceCurrentItem(with: item)
     }
     
     func playVideoOnChangeOfScrollPostion(postID: String?){
