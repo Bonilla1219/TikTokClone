@@ -6,20 +6,22 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct FeedCell: View {
-    let post: Int
+    let post: Post
+    var player: AVPlayer
+    
+    init(post:Post, player: AVPlayer){
+        self.post = post
+        self.player = player
+    }
     var body: some View {
         ZStack{
-            Rectangle()
-                .fill(.pink)
+            CustomVideoPlayer(player: player)
                 //makes the objects fit the screen realative to its horiztonal and vertical frame
                 .containerRelativeFrame([.horizontal, .vertical])
-                .overlay{
-                    Text("Post \(post)")
-                        .foregroundStyle(.white)
-                }
-            
+                
             VStack{
                 Spacer()
                 
@@ -101,9 +103,13 @@ struct FeedCell: View {
             }
             .padding()
         }
+        .onAppear{
+            print("DEBUG: post id \(post.id)")
+            //player.play()
+        }
     }
 }
 
 #Preview {
-    FeedCell(post: 2)
+    FeedCell(post: Post(id: NSUUID().uuidString, videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"), player: AVPlayer())
 }
